@@ -1,0 +1,33 @@
+<?php
+
+function h5p_drupal_hooks_h5p_styles_alter(&$styles, $libraries, $mode) {
+  $paths = [];
+  if ($mode === 'editor') {
+    _h5p_drupal_hooks_add_file($styles, drupal_get_path('module', 'h5p_drupal_hooks') . '/editor-style-relative.css');
+    _h5p_drupal_hooks_add_file($styles, file_create_url(drupal_get_path('module', 'h5p_drupal_hooks') . '/editor-style-absolute.css'));
+  }
+  else {
+    _h5p_drupal_hooks_add_file($styles, drupal_get_path('module', 'h5p_drupal_hooks') . '/view-style-relative.css');
+    _h5p_drupal_hooks_add_file($styles, file_create_url(drupal_get_path('module', 'h5p_drupal_hooks') . '/view-style-absolute.css'));
+  }
+}
+
+function h5p_drupal_hooks_h5p_scripts_alter(&$scripts, $libraries, $mode) {
+  if ($mode === 'editor') {
+    _h5p_drupal_hooks_add_file($scripts, drupal_get_path('module', 'h5p_drupal_hooks') . '/editor-script-relative.js');
+    _h5p_drupal_hooks_add_file($scripts, file_create_url(drupal_get_path('module', 'h5p_drupal_hooks') . '/editor-script-absolute.js'));
+  }
+  else {
+    _h5p_drupal_hooks_add_file($scripts, drupal_get_path('module', 'h5p_drupal_hooks') . '/view-script-relative.js');
+    _h5p_drupal_hooks_add_file($scripts, file_create_url(drupal_get_path('module', 'h5p_drupal_hooks') . '/view-script-absolute.js'));
+  }
+}
+
+function _h5p_drupal_hooks_add_file(&$files, $path) {
+  if (isset($path)) {
+    $files[] = (object) array(
+      'path' => $path,
+      'version' => '?ver=2',
+    );
+  }
+}
